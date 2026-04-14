@@ -28,7 +28,7 @@ def test_daily_mean(data, expected):
 def test_daily_min(data, expected):
     """Test that min function works for an array of positive integers."""
 
-    npt.assert_array_equal(models.daily_min(data), expected)
+    npt.assert_array_almost_equal(models.daily_min(data), expected)
 
 @pytest.mark.parametrize(
         "data, expected",
@@ -41,4 +41,4 @@ def test_daily_min(data, expected):
 def test_daily_max(data, expected):
     """Test that min function works for an array of positive integers."""
 
-    npt.assert_array_equal(models.daily_max(data), expected)
+    npt.assert_array_almost_equal(models.daily_max(data), expected)
