@@ -1,5 +1,7 @@
 # Introduction
 
++ [![cov](https://k-harris27.github.io/python-intermediate-inflammation/badges/coverage.svg)](https://github.com/k-harris27/python-intermediate-inflammation//actions)
+
 This is a template software project repository used by the [Intermediate Research Software Development Skills In Python](https://github.com/carpentries-incubator/python-intermediate-development).
 
 ## Purpose
