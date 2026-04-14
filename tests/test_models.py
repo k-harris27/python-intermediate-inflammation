@@ -1,29 +1,44 @@
 """Tests for statistics functions within the Model layer."""
 
-import numpy as np
+import pytest
 import numpy.testing as npt
 
-from inflammation.models import daily_mean
+from inflammation import models
 
-def test_daily_mean_zeros():
-    """Test that mean function works for an array of zeros."""
+@pytest.mark.parametrize(
+        "data, expected",
+        [
+            ([[0,0], [0,0], [0,0]], [0,0]),
+            ([[1,2], [3,4], [5,6]], [3,4]),
+            ([[0.5,1.5], [2.5,3.5], [4.5,5.5]], [2.5,3.5])
+        ]
+)
+def test_daily_mean(data, expected):
+    """Test that mean function works for a variety of inputs"""
+    npt.assert_array_almost_equal(models.daily_mean(data), expected)
 
-    test_input = np.array([[0, 0],
-                           [0, 0],
-                           [0, 0]])
-    test_result = np.array([0, 0])
+@pytest.mark.parametrize(
+        "data, expected",
+        [
+            ([[0,0], [0,0], [0,0]], [0,0]),
+            ([[1,6], [3,4], [5,2]], [1,2]),
+            ([[0.5,1.5], [2.5,3.5], [4.5,5.5]], [0.5,1.5])
+        ]
+)
+def test_daily_min(data, expected):
+    """Test that min function works for an array of positive integers."""
 
-    # Need to use Numpy testing functions to compare arrays
-    npt.assert_array_equal(daily_mean(test_input), test_result)
+    npt.assert_array_equal(models.daily_min(data), expected)
 
+@pytest.mark.parametrize(
+        "data, expected",
+        [
+            ([[0,0], [0,0], [0,0]], [0,0]),
+            ([[1,6], [3,4], [5,2]], [5,6]),
+            ([[0.5,1.5], [2.5,3.5], [4.5,5.5]], [4.5,5.5])
+        ]
+)
+def test_daily_max(data, expected):
+    """Test that min function works for an array of positive integers."""
 
-def test_daily_mean_integers():
-    """Test that mean function works for an array of positive integers."""
-
-    test_input = np.array([[1, 2],
-                           [3, 4],
-                           [5, 6]])
-    test_result = np.array([3, 4])
-
-    # Need to use Numpy testing functions to compare arrays
-    npt.assert_array_equal(daily_mean(test_input), test_result)
+    npt.assert_array_equal(models.daily_max(data), expected)
