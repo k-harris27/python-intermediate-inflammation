@@ -45,20 +45,40 @@ def test_daily_max(data, expected):
     npt.assert_array_almost_equal(models.daily_max(data), expected)
 
 @pytest.mark.parametrize(
-    "test, expected",
+    "test, expected, expect_raises",
     [
-        ([[0, 0, 0], [0, 0, 0], [0, 0, 0]], [[0, 0, 0], [0, 0, 0], [0, 0, 0]]),
-        ([[1, 1, 1], [1, 1, 1], [1, 1, 1]], [[1, 1, 1], [1, 1, 1], [1, 1, 1]]),
-        ([[-1, 1, 1], [1, 1, 1], [1, 1, 1]], [[0, 1, 1], [1, 1, 1], [1, 1, 1]]),
-        ([[1, 2, 3], [4, 5, 6], [7, 8, 9]], [[0.33, 0.67, 1], [0.67, 0.83, 1], [0.78, 0.89, 1]]),
+        (
+            [[0, 0, 0], [0, 0, 0], [0, 0, 0]],
+            [[0, 0, 0], [0, 0, 0], [0, 0, 0]],
+            None
+        ),
+        (
+            [[1, 1, 1], [1, 1, 1], [1, 1, 1]],
+            [[1, 1, 1], [1, 1, 1], [1, 1, 1]],
+            None
+        ),
+        (
+            [[-1, 1, 1], [1, 1, 1], [1, 1, 1]],
+            None,
+            ValueError
+        ),
+        (
+            [[1, 2, 3], [4, 5, 6], [7, 8, 9]],
+            [[0.33, 0.67, 1], [0.67, 0.83, 1], [0.78, 0.89, 1]],
+            None
+        ),
     ])
-def test_patient_normalise(test, expected):
+def test_patient_normalise(test, expected, expect_raises):
     """Test normalisation for parameterised arrays of integers.
 
     Args:
         test (np.ndarray): Test data as a 2D numpy array.
         expected (np.ndarray): Expected normalised result as a 2D numpy array.
+        expect_raises (Exception|None): Expected exception if applicable, else None.
     """
-
-    result = models.patient_normalise(np.array(test))
-    npt.assert_allclose(result, np.array(expected), rtol=1e-2, atol=1e-2)
+    if expect_raises is not None:
+        with pytest.raises(expect_raises):
+            models.patient_normalise(np.array(test))
+    else:
+        result = models.patient_normalise(np.array(test))
+        npt.assert_allclose(result, np.array(expected), rtol=1e-2, atol=1e-2)
