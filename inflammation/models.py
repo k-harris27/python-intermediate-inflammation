@@ -38,5 +38,5 @@ def patient_normalise(data):
     Args:
         data (np.ndarray): 2D Patient data to be normalised.
     """
-    _max = np.max(data, axis=0)
+    _max = np.max(data, axis=1)
     return data / _max[:, np.newaxis]
