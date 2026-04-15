@@ -45,11 +45,13 @@ def test_daily_max(data, expected):
     npt.assert_array_almost_equal(models.daily_max(data), expected)
 
 @pytest.mark.parametrize(
-        "test, expected",
-        [
-            ([[1, 2, 3], [4, 5, 6], [7, 8, 9]], [[0.33, 0.67, 1], [0.67, 0.83, 1], [0.78, 0.89, 1]]),
-        ]
-)
+    "test, expected",
+    [
+        ([[0, 0, 0], [0, 0, 0], [0, 0, 0]], [[0, 0, 0], [0, 0, 0], [0, 0, 0]]),
+        ([[1, 1, 1], [1, 1, 1], [1, 1, 1]], [[1, 1, 1], [1, 1, 1], [1, 1, 1]]),
+        ([[-1, 1, 1], [1, 1, 1], [1, 1, 1]], [[0, 1, 1], [1, 1, 1], [1, 1, 1]]),
+        ([[1, 2, 3], [4, 5, 6], [7, 8, 9]], [[0.33, 0.67, 1], [0.67, 0.83, 1], [0.78, 0.89, 1]]),
+    ])
 def test_patient_normalise(test, expected):
     """Test normalisation for parameterised arrays of integers.
 
